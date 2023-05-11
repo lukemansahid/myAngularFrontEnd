@@ -19,6 +19,7 @@ export class TaskServiceService {
     return this.http.post<Task>(this.getApiBaseUrl() + '/save', newTask);
   }
 
+  // Method to delete a task By ID
   deleteTaskById(taskId: number): Observable<any> {
     const url = `${this.getApiBaseUrl()}/tasks/${taskId}/delete`;
     return this.http.post(url, null);

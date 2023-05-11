@@ -10,7 +10,7 @@ import {Form} from "@angular/forms";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent  implements OnInit{
-  title = 'myFrontEndApp';
+  title = 'Lukeman S. Kamara';
 
   swalWithBootstrapButtons = Swal.mixin({
     customClass: {
@@ -31,12 +31,12 @@ export class AppComponent  implements OnInit{
 
   constructor(private taskServiceService: TaskServiceService) {}
 
-  ngOnInit(): void {
-
+  ngOnInit() {
     this.getAllTasks();
   }
-  saveTask(taskForm: Form) {
 
+  //== Method to save new task
+  saveTask(taskForm: Form) {
     this.swalWithBootstrapButtons.fire({
       title: '¿Seguro que desea guardar?',
       showCancelButton: true,
@@ -46,18 +46,15 @@ export class AppComponent  implements OnInit{
     }).then((result) => {
       if (result.value) {
         if (!this.editingTask) {
-
           this.showSpinnerSaveTask = true;
-
           this.taskServiceService.saveTask(this.newTask)
             .subscribe(() => {
               this.swalWithBootstrapButtons.fire(
                 'Guardado!',
                 '',
                 'success');
-
               this.showSpinnerSaveTask = false;
-              this.newTask.description = '';
+              this.cleanFormFields();
               this.getAllTasks();
             }, error => {
               console.log(error);
@@ -69,6 +66,8 @@ export class AppComponent  implements OnInit{
               this.showSpinnerSaveTask = false;
 
             });
+        }else {
+          //TODO logic to update a task
         }
       }
     });
@@ -131,10 +130,9 @@ export class AppComponent  implements OnInit{
     });
   }
 
-
-
-  cleanFormFields(taskForm: Form) {
-
+  //==Method to clean the form field after saving
+  cleanFormFields() {
+    this.newTask.description = '';
   }
 
 
